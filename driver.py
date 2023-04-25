@@ -1,7 +1,7 @@
 from  StaticBranchNotTaken import NotTakenPredictor
-
+from  Dynamic1BitPredictor import OneBitPredictor
 notTakenPredictor = NotTakenPredictor()
-
+oneBitPredictor = OneBitPredictor()
 REGISTERS = {
     "x1": "ra",
     "x2": "sp",
@@ -61,6 +61,7 @@ class CPUState:
                 state = "TAKEN"
 
             notTakenPredictor.predict(state)
+            oneBitPredictor.predict(ins,state)
 
             self.logs.append((ins_name, state, str(self.reg_values)))
     def parse_commit(self, commit):
@@ -94,4 +95,5 @@ if __name__ == "__main__":
             f.write(str(line) + "\n")
 
     notTakenPredictor.printStatistics()
+    oneBitPredictor.printStatistics()
     print("Done")

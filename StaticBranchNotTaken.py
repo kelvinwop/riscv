@@ -16,7 +16,7 @@ class NotTakenPredictor:
             self.totalPredictionsMiss += 1
 
     def printStatistics(self):
-        print("Satic Not Taken Branch Predictor Summary: ")
+        print("Static Not Taken Branch Predictor Summary: ")
         print("Total Predictions:", self.totalPredictions)
         print("Total Predictions Hit:", self.totalPredictionsHit)
         print("Total Predictions Miss:", self.totalPredictionsMiss)
