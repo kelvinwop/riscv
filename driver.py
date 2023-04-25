@@ -1,3 +1,7 @@
+from  StaticBranchNotTaken import NotTakenPredictor
+
+notTakenPredictor = NotTakenPredictor()
+
 REGISTERS = {
     "x1": "ra",
     "x2": "sp",
@@ -41,6 +45,7 @@ class CPUState:
     def __init__(self):
         self.reg_values = dict()
         self.logs = list()
+        
     def parse_instr(self, ins, nextline):
         ins_name = ins[34:42].strip()
         ins_addr = ins[10:20]
@@ -54,6 +59,9 @@ class CPUState:
                 state = "NOT TAKEN"
             else:
                 state = "TAKEN"
+
+            notTakenPredictor.predict(state)
+
             self.logs.append((ins_name, state, str(self.reg_values)))
     def parse_commit(self, commit):
         register = commit[36:39].strip()
@@ -63,7 +71,6 @@ class CPUState:
             return
         value = commit[40:50]
         self.reg_values[register] = value
-
 if __name__ == "__main__":
     with open(LOGFILE, "r") as f:
         data = f.read()
@@ -85,3 +92,6 @@ if __name__ == "__main__":
     with open("output.txt", "w+") as f:
         for line in mycpu.logs:
             f.write(str(line) + "\n")
+
+    notTakenPredictor.printStatistics()
+    print("Done")
