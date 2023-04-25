@@ -5,10 +5,10 @@ class CorrelatingPredictor:
         self.totalPredictionsMiss = 0
         self.totalPredictionsHit = 0
         self.m = m # Looking at the last b branches
-        self.n = n # n-bit counter 
+        self.n = n # how big should the n-bit counter be  
 
         self.branchPredictionBuffer = dict() # Stores pairs of 1 (TAKEN) or 0 (NOT TAKEN)
-        self.globalBranchOutcomeRegister = 1 # TODO 
+        self.globalBranchHistory = [0] * self.m # Global history, Initial State all 0s
 
     def newState(self,oldState,outcome):
         
@@ -39,6 +39,9 @@ class CorrelatingPredictor:
         prediction = "NOT TAKEN"
         branchInstructionAddress = BranchInstruction[22:32]
 
+        branchInstructionAddress = branchInstructionAddress + ''.join(map(str, self.globalBranchHistory)) 
+        # print(branchInstructionAddress, "Branch History", self.globalBranchHistory)
+
         # Determening Prediction
         if(branchInstructionAddress in self.branchPredictionBuffer ):
             if(self.branchPredictionBuffer[branchInstructionAddress] <= 1):
@@ -49,6 +52,7 @@ class CorrelatingPredictor:
             self.branchPredictionBuffer[branchInstructionAddress]  = 0 # Initial State of 2-bit Predictor 
 
         oldState = self.branchPredictionBuffer[branchInstructionAddress]
+
         # Calculating Prediction Accuracy                                                         
         self.totalPredictions += 1
         if(prediction==BranchOutcome):
@@ -59,8 +63,16 @@ class CorrelatingPredictor:
             newState = self.newState(oldState,BranchOutcome)
             self.branchPredictionBuffer[branchInstructionAddress] = newState
             # print(branchInstructionAddress,"Old State:",oldState,"OutCOme: ", BranchOutcome,"New State: ", newState )
+        
+        # Shifting the Global History Resgiter 
+        self.globalBranchHistory.pop(0)
+        intOutcome = 0
+        if(BranchOutcome=='TAKEN'):
+            intOutcome = 1
+        self.globalBranchHistory.append(intOutcome)
+
     def printStatistics(self):
-        print("Dynamic 2-Bit Branch Predictor Summary: ")
+        print("Dynamic Correlating Predictor Summary: ")
         print("Total Predictions:", self.totalPredictions)
         print("Total Predictions Hit:", self.totalPredictionsHit)
         print("Total Predictions Miss:", self.totalPredictionsMiss)
