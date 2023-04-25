@@ -18,7 +18,7 @@ class OneBitPredictor:
             else:
                 prediction = "NOT TAKEN"
         else:
-            self.branchPredictionBuffer[branchInstructionAddress]  = (BranchOutcome == "TAKEN") 
+            self.branchPredictionBuffer[branchInstructionAddress]  = 0 # Default Prediction State is "NOT TAKEN" #(BranchOutcome == "TAKEN") 
 
         # Calculating Prediction Accuracy                                                         
         self.totalPredictions += 1
