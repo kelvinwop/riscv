@@ -2,12 +2,12 @@ from  StaticBranchNotTaken import NotTakenPredictor
 from  Dynamic1BitPredictor import OneBitPredictor
 from  Dynamic2BitPredictor import TwoBitPredictor
 from CorrelatingPredictor import CorrelatingPredictor
+from TournamentPredictor import TournamentPredictor
 notTakenPredictor = NotTakenPredictor()
 oneBitPredictor = OneBitPredictor()
 twoBitPredictor = TwoBitPredictor()
-
-print("Calling Predictor ")
 correllatingPrediction = CorrelatingPredictor(4,2) # For Now we just use n = 2 (2 bit counter )
+tournamentPrediction = TournamentPredictor(10,2) # 2-bit correlating predictors hardwired
 REGISTERS = {
     "x1": "ra",
     "x2": "sp",
@@ -70,6 +70,7 @@ class CPUState:
             oneBitPredictor.predict(ins,state)
             twoBitPredictor.predict(ins,state)
             correllatingPrediction.predict(ins,state)
+            tournamentPrediction.predict(ins,state)
 
             self.logs.append((ins_name, state, str(self.reg_values)))
     def parse_commit(self, commit):
@@ -106,4 +107,5 @@ if __name__ == "__main__":
     oneBitPredictor.printStatistics()
     twoBitPredictor.printStatistics()
     correllatingPrediction.printStatistics()
+    tournamentPrediction.printStatistics()
     print("Done")
