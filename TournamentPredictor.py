@@ -4,6 +4,15 @@ class TournamentPredictor:
         self.totalPredictions = 0
         self.totalPredictionsMiss = 0
         self.totalPredictionsHit = 0
+
+        self.totalGlobalPredictorUsed = 0
+        self.totalLocalPredictorUsed = 0
+
+        self.totalGlobalPredictorHit = 0
+        self.totalGlobalPredictorMiss = 0
+        self.totalLocalPredictorHit = 0
+        self.totalLocalPredictorMiss = 0
+
         self.m = m # Looking at the last b branches
         self.n = n # how big should the n-bit counter be  
 
@@ -53,11 +62,12 @@ class TournamentPredictor:
             # Use Global Predictor
             # Global Branch History is used as the index to predictor table 
             predictor = self.globalPrediction(self.globalBranchHistory)
+            self.totalGlobalPredictorUsed += 1
         else:
             predictorUsed = "Local"
             # Use Local Predictor
             predictor = self.localPrediction(branchInstructionAddress)
-
+            self.totalLocalPredictorUsed += 1
         prediction = "NOT TAKEN"
         if(predictor <= 1):
             prediction = "NOT TAKEN"
@@ -83,20 +93,25 @@ class TournamentPredictor:
                 newState = self.newState(oldState,BranchOutcome)
                 
                 self.globalBranchBuffer[globalHistoryString] = newState
+                self.totalGlobalPredictorMiss += 1
             else:
                 # Local Predictor was Used 
                 oldState = self.branchLocalPredictionBuffer[branchInstructionAddress]
                 newState = self.newState(oldState,BranchOutcome)
                 self.branchLocalPredictionBuffer[branchInstructionAddress] = newState
-
+                self.totalLocalPredictorMiss += 1
             # Update Prediction Selector 
             oldState = self.branchPredictorSelectorBuffer[branchInstructionAddress]
+            
             # Since I want to use the same function 
-            fakeBranchOutcome = "NOT TAKEN" # Global Predictor Used
-            if (predictorUsed == "Local"):
-                fakeBranchOutcome = "TAKEN" # Local Predictor Used
+            # Predictor was wrong therefore we need to use the other predictor (Through the 2 bit counter)
+            fakeBranchOutcome = "NOT TAKEN" # Global Predictor Should have been used
+            if (predictorUsed == "Global"): 
+                fakeBranchOutcome = "TAKEN" # Local PredictorShould have been used Used
             newState = self.newState(oldState,fakeBranchOutcome)
             self.branchPredictorSelectorBuffer[branchInstructionAddress] = newState
+            print("Predictor Old State",oldState, "NewState",newState)
+
         # Shifting the Global History Register 
         self.globalBranchHistory.pop(0)
         intOutcome = 0
@@ -133,3 +148,10 @@ class TournamentPredictor:
         print("Total Predictions:", self.totalPredictions)
         print("Total Predictions Hit:", self.totalPredictionsHit)
         print("Total Predictions Miss:", self.totalPredictionsMiss)
+        print("Total Global Predictor Used: ", self.totalGlobalPredictorUsed)
+        print("Total Global Predictor Miss: ", self.totalGlobalPredictorMiss)
+        print("Total Local Predictor Used: ", self.totalLocalPredictorUsed)
+        print("Total Local Predictor Miss: ", self.totalLocalPredictorMiss)
+        print("Number of entries in Predictor Buffer", len(self.branchPredictorSelectorBuffer))
+        print("Number of entries in GlobalPredictionBuffer", len(self.globalBranchBuffer))
+        print("Number of entries in LocalPredictionBuffer", len(self.branchLocalPredictionBuffer))
