@@ -1,0 +1,60 @@
+
+test.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	7179                	add	sp,sp,-48
+   2:	d622                	sw	s0,44(sp)
+   4:	1800                	add	s0,sp,48
+   6:	6789                	lui	a5,0x2
+   8:	70f78793          	add	a5,a5,1807 # 270f <.L2+0x26b7>
+   c:	fef42023          	sw	a5,-32(s0)
+  10:	4789                	li	a5,2
+  12:	fef42623          	sw	a5,-20(s0)
+  16:	4789                	li	a5,2
+  18:	fef42423          	sw	a5,-24(s0)
+  1c:	fe042223          	sw	zero,-28(s0)
+  20:	a825                	j	58 <.L2>
+			20: R_RISCV_RVC_JUMP	.L2
+
+00000022 <.L6>:
+  22:	fec42703          	lw	a4,-20(s0)
+  26:	4789                	li	a5,2
+  28:	00f71463          	bne	a4,a5,30 <.L3>
+			28: R_RISCV_BRANCH	.L3
+  2c:	fe042623          	sw	zero,-20(s0)
+
+00000030 <.L3>:
+  30:	fe842703          	lw	a4,-24(s0)
+  34:	4789                	li	a5,2
+  36:	00f71463          	bne	a4,a5,3e <.L4>
+			36: R_RISCV_BRANCH	.L4
+  3a:	fe042423          	sw	zero,-24(s0)
+
+0000003e <.L4>:
+  3e:	fec42703          	lw	a4,-20(s0)
+  42:	fe842783          	lw	a5,-24(s0)
+  46:	00f70463          	beq	a4,a5,4e <.L5>
+			46: R_RISCV_BRANCH	.L5
+  4a:	fc042c23          	sw	zero,-40(s0)
+
+0000004e <.L5>:
+  4e:	fe442783          	lw	a5,-28(s0)
+  52:	0785                	add	a5,a5,1
+  54:	fef42223          	sw	a5,-28(s0)
+
+00000058 <.L2>:
+  58:	fe442703          	lw	a4,-28(s0)
+  5c:	3e700793          	li	a5,999
+  60:	fce7f1e3          	bgeu	a5,a4,22 <.L6>
+			60: R_RISCV_BRANCH	.L6
+  64:	6789                	lui	a5,0x2
+  66:	2b878793          	add	a5,a5,696 # 22b8 <.L2+0x2260>
+  6a:	fcf42e23          	sw	a5,-36(s0)
+  6e:	4781                	li	a5,0
+  70:	853e                	mv	a0,a5
+  72:	5432                	lw	s0,44(sp)
+  74:	6145                	add	sp,sp,48
+  76:	8082                	ret

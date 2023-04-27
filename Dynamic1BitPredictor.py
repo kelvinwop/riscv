@@ -33,3 +33,4 @@ class OneBitPredictor:
         print("Total Predictions:", self.totalPredictions)
         print("Total Predictions Hit:", self.totalPredictionsHit)
         print("Total Predictions Miss:", self.totalPredictionsMiss)
+        print("Number of unique Branch Instructions:", len(self.branchPredictionBuffer))

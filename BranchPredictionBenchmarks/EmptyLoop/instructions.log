@@ -1,0 +1,35 @@
+
+test.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	1101                	add	sp,sp,-32
+   2:	ce22                	sw	s0,28(sp)
+   4:	1000                	add	s0,sp,32
+   6:	6789                	lui	a5,0x2
+   8:	70f78793          	add	a5,a5,1807 # 270f <.L2+0x26ef>
+   c:	fef42423          	sw	a5,-24(s0)
+  10:	fe042623          	sw	zero,-20(s0)
+  14:	a031                	j	20 <.L2>
+			14: R_RISCV_RVC_JUMP	.L2
+
+00000016 <.L3>:
+  16:	fec42783          	lw	a5,-20(s0)
+  1a:	0785                	add	a5,a5,1
+  1c:	fef42623          	sw	a5,-20(s0)
+
+00000020 <.L2>:
+  20:	fec42703          	lw	a4,-20(s0)
+  24:	3e700793          	li	a5,999
+  28:	fee7f7e3          	bgeu	a5,a4,16 <.L3>
+			28: R_RISCV_BRANCH	.L3
+  2c:	6789                	lui	a5,0x2
+  2e:	2b878793          	add	a5,a5,696 # 22b8 <.L2+0x2298>
+  32:	fef42223          	sw	a5,-28(s0)
+  36:	4781                	li	a5,0
+  38:	853e                	mv	a0,a5
+  3a:	4472                	lw	s0,28(sp)
+  3c:	6105                	add	sp,sp,32
+  3e:	8082                	ret

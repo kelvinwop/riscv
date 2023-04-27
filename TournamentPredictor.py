@@ -110,7 +110,7 @@ class TournamentPredictor:
                 fakeBranchOutcome = "TAKEN" # Local PredictorShould have been used Used
             newState = self.newState(oldState,fakeBranchOutcome)
             self.branchPredictorSelectorBuffer[branchInstructionAddress] = newState
-            print("Predictor Old State",oldState, "NewState",newState)
+            # print("Predictor Old State",oldState, "NewState",newState)
 
         # Shifting the Global History Register 
         self.globalBranchHistory.pop(0)

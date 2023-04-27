@@ -44,8 +44,8 @@ REGISTERS = {
 
 BRANCHES = ["beqz", "beq", "bnez", "bne", "blez", "ble", "bgez", "bge", "bltz", "blt", "bgtz", "bgt", "bgtu", "bltu", "bleu", "bgeu"]
 
-
-LOGFILE = "log2.log"
+Directory = './BranchPredictionBenchmarks/Fibonacci20/' 
+LOGFILE = Directory+"instructions_rannedTrimmed.log"
 
 class CPUState:
     def __init__(self):
@@ -99,7 +99,7 @@ if __name__ == "__main__":
             # ignore
             pass
 
-    with open("output.txt", "w+") as f:
+    with open(Directory+"ProgramOutput.txt", "w+") as f:
         for line in mycpu.logs:
             f.write(str(line) + "\n")
 
@@ -108,4 +108,5 @@ if __name__ == "__main__":
     twoBitPredictor.printStatistics()
     correllatingPrediction.printStatistics()
     tournamentPrediction.printStatistics()
+    
     print("Done")

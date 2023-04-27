@@ -1,0 +1,89 @@
+
+test.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	7179                	add	sp,sp,-48
+   2:	d622                	sw	s0,44(sp)
+   4:	1800                	add	s0,sp,48
+   6:	6789                	lui	a5,0x2
+   8:	70f78793          	add	a5,a5,1807 # 270f <.L2+0x2673>
+   c:	fef42023          	sw	a5,-32(s0)
+  10:	fe042623          	sw	zero,-20(s0)
+  14:	fe042423          	sw	zero,-24(s0)
+  18:	fe042223          	sw	zero,-28(s0)
+  1c:	a041                	j	9c <.L2>
+			1c: R_RISCV_RVC_JUMP	.L2
+
+0000001e <.L7>:
+  1e:	fe442703          	lw	a4,-28(s0)
+  22:	03100793          	li	a5,49
+  26:	02e7ec63          	bltu	a5,a4,5e <.L3>
+			26: R_RISCV_BRANCH	.L3
+  2a:	fec42783          	lw	a5,-20(s0)
+  2e:	0785                	add	a5,a5,1
+  30:	fef42623          	sw	a5,-20(s0)
+  34:	fec42703          	lw	a4,-20(s0)
+  38:	47cd                	li	a5,19
+  3a:	00e7e863          	bltu	a5,a4,4a <.L4>
+			3a: R_RISCV_BRANCH	.L4
+  3e:	fe842783          	lw	a5,-24(s0)
+  42:	0785                	add	a5,a5,1
+  44:	fef42423          	sw	a5,-24(s0)
+  48:	a0a9                	j	92 <.L5>
+			48: R_RISCV_RVC_JUMP	.L5
+
+0000004a <.L4>:
+  4a:	fe842783          	lw	a5,-24(s0)
+  4e:	8b85                	and	a5,a5,1
+  50:	e3a9                	bnez	a5,92 <.L5>
+			50: R_RISCV_RVC_BRANCH	.L5
+  52:	fe842783          	lw	a5,-24(s0)
+  56:	0785                	add	a5,a5,1
+  58:	fef42423          	sw	a5,-24(s0)
+  5c:	a81d                	j	92 <.L5>
+			5c: R_RISCV_RVC_JUMP	.L5
+
+0000005e <.L3>:
+  5e:	fec42783          	lw	a5,-20(s0)
+  62:	0785                	add	a5,a5,1
+  64:	fef42623          	sw	a5,-20(s0)
+  68:	fec42703          	lw	a4,-20(s0)
+  6c:	03100793          	li	a5,49
+  70:	00e7e863          	bltu	a5,a4,80 <.L6>
+			70: R_RISCV_BRANCH	.L6
+  74:	fe842783          	lw	a5,-24(s0)
+  78:	0785                	add	a5,a5,1
+  7a:	fef42423          	sw	a5,-24(s0)
+  7e:	a811                	j	92 <.L5>
+			7e: R_RISCV_RVC_JUMP	.L5
+
+00000080 <.L6>:
+  80:	fe842783          	lw	a5,-24(s0)
+  84:	8b85                	and	a5,a5,1
+  86:	e791                	bnez	a5,92 <.L5>
+			86: R_RISCV_RVC_BRANCH	.L5
+  88:	fe842783          	lw	a5,-24(s0)
+  8c:	0785                	add	a5,a5,1
+  8e:	fef42423          	sw	a5,-24(s0)
+
+00000092 <.L5>:
+  92:	fe442783          	lw	a5,-28(s0)
+  96:	0785                	add	a5,a5,1
+  98:	fef42223          	sw	a5,-28(s0)
+
+0000009c <.L2>:
+  9c:	fe442703          	lw	a4,-28(s0)
+  a0:	06300793          	li	a5,99
+  a4:	f6e7fde3          	bgeu	a5,a4,1e <.L7>
+			a4: R_RISCV_BRANCH	.L7
+  a8:	6789                	lui	a5,0x2
+  aa:	2b878793          	add	a5,a5,696 # 22b8 <.L2+0x221c>
+  ae:	fcf42e23          	sw	a5,-36(s0)
+  b2:	4781                	li	a5,0
+  b4:	853e                	mv	a0,a5
+  b6:	5432                	lw	s0,44(sp)
+  b8:	6145                	add	sp,sp,48
+  ba:	8082                	ret
