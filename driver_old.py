@@ -37,11 +37,13 @@ REGISTERS = {
 BRANCHES = ["beqz", "beq", "bnez", "bne", "blez", "ble", "bgez", "bge", "bltz", "blt", "bgtz", "bgt", "bgtu", "bltu", "bleu", "bgeu"]
 
 
-LOGFILE = "BranchPredictionBenchmarks\Fibonacci10\instructions_ranned.log"
+LOGFILE = r"BranchPredictionBenchmarks\EmptyLoop\instructions_rannedWithoutBootloader.log"
 
 class CPUState:
     def __init__(self):
         self.reg_values = dict()
+        for i in range(1,32):
+            self.reg_values[f"x{i}"] = int("0x00000000",16)
         self.logs = list()
     def parse_instr(self, ins, nextline):
         ins_name = ins[34:42].strip()
@@ -56,7 +58,7 @@ class CPUState:
                 state = "NOT TAKEN"
             else:
                 state = "TAKEN"
-            self.logs.append((ins_name, state, ins_addr, str(self.reg_values)))
+            self.logs.append((ins_name, state, ins_addr, json.dumps(self.reg_values)))
     def parse_commit(self, commit):
         register = commit[36:39].strip()
         if len(register) == 0 or register[0] != 'x':
@@ -64,7 +66,7 @@ class CPUState:
             # core   0: 3 0x80005dcc (0x08048a63)
             return
         value = commit[40:50]
-        self.reg_values[register] = value
+        self.reg_values[register] = int(value, 16)
 
 if __name__ == "__main__":
     with open(LOGFILE, "r") as f:
