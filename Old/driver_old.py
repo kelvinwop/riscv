@@ -37,7 +37,7 @@ REGISTERS = {
 BRANCHES = ["beqz", "beq", "bnez", "bne", "blez", "ble", "bgez", "bge", "bltz", "blt", "bgtz", "bgt", "bgtu", "bltu", "bleu", "bgeu"]
 
 
-LOGFILE = r"BranchPredictionBenchmarks\EmptyLoop\instructions_rannedWithoutBootloader.log"
+LOGFILE = "BranchPredictionBenchmarks\EmptyLoop\instructions_rannedWithoutBootloader.log"
 
 class CPUState:
     def __init__(self):
